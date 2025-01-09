@@ -1,6 +1,6 @@
 import { useUser } from "@/hooks/useUser";
 import { useRouter } from "next/navigation";
-import { ReactElement, Suspense, useEffect } from "react";
+import { ReactElement, Suspense, useLayoutEffect } from "react";
 
 interface Props {
   children: ReactElement | Array<ReactElement>;
@@ -10,7 +10,7 @@ interface Props {
 export function MainLayout({ children, header, footer }: Props) {
   const { isLoggedIn } = useUser();
   const router = useRouter();
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!isLoggedIn) {
       router.replace("/register");
     }
