@@ -14,7 +14,7 @@ export function MainLayout({ children, header, footer }: Props) {
     if (!isLoggedIn) {
       router.replace("/register");
     }
-  }, []);
+  }, [isLoggedIn]);
   return (
     <Suspense>
       <div className="h-full flex flex-col">
