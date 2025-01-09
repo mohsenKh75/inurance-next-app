@@ -10,9 +10,8 @@ export default function Register() {
   const methods = useForm<FormData>();
 
   return (
-    <MainLayout>
+    <MainLayout header={<PageTitle className="py-5 px-5" title="ثبت نام" />}>
       <div className="px-5">
-        <PageTitle className="py-5" title="ثبت نام" />
         <FormProvider {...methods}>
           <form className="flex w-full flex-col items-center gap-5 ">
             <Input name="firstName" type="text" placeholder="نام" />
