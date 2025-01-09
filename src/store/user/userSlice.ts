@@ -1,7 +1,12 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { UserInitialState } from "../types";
+import { isServerSide } from "@/utils/isServerSide";
 
-const userInfo = JSON.parse(localStorage.getItem("auth") as string);
+const userInfo = isServerSide
+  ? null
+  : JSON.parse(localStorage.getItem("auth") as string)
+  ? JSON.parse(localStorage.getItem("auth") as string)
+  : null;
 const isUserLoggedIn = userInfo ? true : false;
 
 const initialState: UserInitialState = {
