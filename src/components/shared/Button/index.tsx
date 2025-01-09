@@ -1,11 +1,13 @@
 import { classnames } from "@/utils/classnames";
 import { ReactElement } from "react";
+import { Loading } from "../Loading";
 
 interface Props {
   children?: string | ReactElement;
   onClick?: () => void;
   type?: "submit" | "reset" | "button";
   disabled?: boolean;
+  isLoading?: boolean;
 }
 
 export function Button({
@@ -13,6 +15,7 @@ export function Button({
   onClick,
   type = "button",
   disabled,
+  isLoading,
 }: Props) {
   return (
     <button
@@ -26,7 +29,8 @@ export function Button({
       type={type}
       onClick={onClick}
     >
-      {children}
+      <Loading isLoading={isLoading} />
+      {!isLoading && children}
     </button>
   );
 }
