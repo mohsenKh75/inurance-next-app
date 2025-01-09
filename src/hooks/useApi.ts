@@ -1,10 +1,13 @@
 import { mockReq } from "@/mock/mockReq";
-import { useState, useCallback } from "react";
+import { useCallback, useState } from "react";
 
-export function useApi<T>() {
+interface Props<T> {
+  req?: (() => Promise<T>) | Promise<T>;
+}
+export function useApi<T>({ req }: Props<T>) {
   const [pending, setPending] = useState(false);
 
-  const request = useCallback(async (data: T): Promise<T> => {
+  const mockRequest = useCallback(async (data: T): Promise<T> => {
     setPending(true);
     try {
       const response = await mockReq(data);
@@ -14,5 +17,19 @@ export function useApi<T>() {
     }
   }, []);
 
-  return { request, pending };
+  const request = useCallback(async (): Promise<T | undefined> => {
+    setPending(true);
+    if (req) {
+      try {
+        if (typeof req === "function") {
+          return await req();
+        }
+        return await req;
+      } finally {
+        setPending(false);
+      }
+    }
+  }, [req]);
+
+  return { mockRequest, request, pending };
 }
