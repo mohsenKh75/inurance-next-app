@@ -4,21 +4,33 @@ import { FormProvider, useForm } from "react-hook-form";
 import { PageTitle } from "@/components/shared/PageTitle";
 import { Input } from "@/components/shared/Input";
 import { Button } from "@/components/shared/Button";
-import { Auth } from "@/types/auth/auth";
 import { useApi } from "@/hooks/useApi";
-
+import { useDispatch } from "react-redux";
+import { login } from "@/store/user/userSlice";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { useUser } from "@/hooks/useUser";
 export default function Register() {
   const methods = useForm<FormData>();
   const { request, pending } = useApi();
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const { isLoggedIn } = useUser();
 
   function onSubmit(data: any) {
-    const users: Array<Auth> = [];
-    request(data).then((res: any) => {
-      users.push(res);
-      localStorage.setItem("auth", JSON.stringify(users));
-    });
+    request(data)
+      .then((res: any) => {
+        localStorage.setItem("auth", JSON.stringify(res));
+        dispatch(login(res));
+      })
+      .then(() => router.replace("/"));
   }
-  console.log({ pending });
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      router.replace("/");
+    }
+  }, []);
 
   return (
     <MainLayout header={<PageTitle className="py-5 px-5" title="ثبت نام" />}>
