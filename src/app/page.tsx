@@ -4,6 +4,7 @@ import CarLogo from "~/insurance.svg";
 import { PageTitle } from "@/components/shared/PageTitle";
 import { SquareButton } from "@/components/shared/Button/SquareButton";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 
 const HomeHeader = dynamic(
   () => import("@/components/Home/HomeHeader").then((mod) => mod.HomeHeader),
@@ -13,6 +14,7 @@ const HomeHeader = dynamic(
 );
 
 export default function Home() {
+  const router = useRouter();
   return (
     <MainLayout header={<HomeHeader />}>
       <div className="flex flex-col items-center h-full px-4">
@@ -22,7 +24,7 @@ export default function Home() {
           <div className="flex justify-center gap-4 items-center h-1/2 pt-4">
             <SquareButton
               topIcon={CarLogo}
-              onClick={() => console.log("/select-insurance")}
+              onClick={() => router.push("/select-insurance")}
               title="شخص ثالث"
             />
             <SquareButton
