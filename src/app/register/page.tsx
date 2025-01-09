@@ -12,13 +12,13 @@ import { useEffect } from "react";
 import { useUser } from "@/hooks/useUser";
 export default function Register() {
   const methods = useForm<FormData>();
-  const { request, pending } = useApi();
+  const { mockRequest, pending } = useApi({});
   const dispatch = useDispatch();
   const router = useRouter();
   const { isLoggedIn } = useUser();
 
   function onSubmit(data: any) {
-    request(data)
+    mockRequest(data)
       .then((res: any) => {
         localStorage.setItem("auth", JSON.stringify(res));
         dispatch(login(res));
@@ -34,7 +34,7 @@ export default function Register() {
 
   return (
     <MainLayout header={<PageTitle className="py-5 px-5" title="ثبت نام" />}>
-      <div className="px-5">
+      <div className="px-5 md:max-w-[400px]">
         <FormProvider {...methods}>
           <form
             onSubmit={methods.handleSubmit(onSubmit)}

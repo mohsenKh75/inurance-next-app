@@ -1,5 +1,7 @@
 import { classnames } from "@/utils/classnames";
 import { farsiValidator, passwordValidator } from "@/utils/formValidators";
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
+import Image from "next/image";
 import { HTMLInputTypeAttribute } from "react";
 import { useFormContext } from "react-hook-form";
 
@@ -12,6 +14,7 @@ interface Props {
   readOnly?: boolean;
   className?: string;
   type?: HTMLInputTypeAttribute;
+  leftIcon?: string | StaticImport;
 }
 
 export function Input({
@@ -23,6 +26,7 @@ export function Input({
   value,
   className,
   type,
+  leftIcon,
 }: Props) {
   const {
     register,
@@ -30,7 +34,15 @@ export function Input({
   } = useFormContext();
 
   return (
-    <div className="w-full">
+    <div className="w-full relative">
+      {leftIcon && (
+        <Image
+          width={12}
+          alt="icon"
+          src={leftIcon}
+          className="absolute left-0 top-5 ml-2 "
+        />
+      )}
       <input
         readOnly={readOnly}
         type={type}
